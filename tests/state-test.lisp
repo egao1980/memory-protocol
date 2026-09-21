@@ -16,12 +16,14 @@
                   (memory-protocol:current-state store
                                                  :identity "ada" :tenant "acme")))
          (entries (memory-protocol:state-index-entries state)))
-    (ok (cl:>= (length entries) 2))
-    (ok (search "budget numbers"
-                (memory-protocol:state-entry-headline (first entries))))
+    ;; 6h inject window drops the first chunk and says so.
+    (ok (= 1 (length entries)))
+    (ok (plusp (memory-protocol:state-index-omitted state)))
     (ok (search "shipping the patch"
-                (memory-protocol:state-entry-headline (car (last entries)))))
-    (ok (memory-protocol:state-entry-gap-hours (car (last entries))))))
+                (memory-protocol:state-entry-headline (first entries))))
+    (ok (memory-protocol:state-entry-gap-hours (first entries)))
+    (ok (search "earlier entries omitted"
+                (memory-protocol:render-state state)))))
 
 (deftest state-human-priority-survives-fold
   (let* ((t0 1700000000)
