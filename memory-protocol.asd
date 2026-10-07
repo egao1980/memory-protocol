@@ -1,9 +1,9 @@
 (defsystem "memory-protocol"
-  :version "0.1.0"
+  :version "0.1.1"
   :description "CLOS lossless memory protocol for cl-stack (append-only identity-scoped log)"
   :author "egao1980"
   :license "MIT"
-  :depends-on ("datetime-protocol")
+  :depends-on ((:version "datetime-protocol" "0.1.3"))
   :serial t
   :pathname "src"
   :components ((:file "package")
